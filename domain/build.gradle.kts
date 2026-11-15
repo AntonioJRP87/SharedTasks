@@ -10,7 +10,7 @@ kotlin {
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     android {
-        namespace = "com.antonio.sharedtasks.shared"
+        namespace = "com.antonio.sharedtasks.domain"
         compileSdk {
             version = release(37)
         }

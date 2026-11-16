@@ -19,6 +19,7 @@ kotlinStdlib = "2.4.21"
 core = "1.7.0"
 konsist = "0.18.1"
 googleServices = "4.6.0"
+gitlive = "3.0.0-beta1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -43,6 +44,7 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlinStdlib" }
 androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 konsist = { group = "com.lemonappdev", name = "konsist", version.ref = "konsist" }
+firebase-auth = { group = "dev.gitlive", name = "firebase-auth", version.ref = "gitlive" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

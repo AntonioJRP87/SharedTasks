@@ -57,6 +57,7 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 implementation(project(":domain"))
+                implementation(libs.firebase.auth)
                 // Add KMP dependencies here
             }
         }

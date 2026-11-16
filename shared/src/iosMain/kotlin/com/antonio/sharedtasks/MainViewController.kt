@@ -1,5 +1,11 @@
 package com.antonio.sharedtasks
 
 import androidx.compose.ui.window.ComposeUIViewController
+import com.antonio.sharedtasks.data.initializeFirebase
+import platform.UIKit.UIViewController
 
-fun MainViewController() = ComposeUIViewController { App() }
+@Suppress("FunctionName")
+fun MainViewController(): UIViewController {
+    initializeFirebase()
+    return  ComposeUIViewController { App() }
+}

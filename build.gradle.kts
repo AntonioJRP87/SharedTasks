@@ -9,4 +9,5 @@ plugins {
     alias(libs.plugins.androidLint) apply false
     alias(libs.plugins.kotlinJvm) apply false
     alias(libs.plugins.googleServices) apply false
+    alias(libs.plugins.serialization) apply false
 }

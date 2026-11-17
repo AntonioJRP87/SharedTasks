@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.antonio.sharedtasks.data.saveAndReadSmoke
 import com.antonio.sharedtasks.data.signInAnonymously
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
@@ -27,6 +28,7 @@ fun App() {
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
         var showText by remember { mutableStateOf("Sin sesión") }
+        var dates by remember { mutableStateOf("Sin datos") }
 
         val scope = rememberCoroutineScope()
 
@@ -47,6 +49,16 @@ fun App() {
                 Text("Click me!")
             }
             Text(showText)
+            Button(onClick = { scope.launch {
+                try {
+                    dates = saveAndReadSmoke()
+                } catch (e: Exception) {
+                    showText = e.message ?: "Error desconocido"
+                }
+            } }) {
+                Text("Probar Firestore")
+            }
+            Text(dates)
             AnimatedVisibility(showContent) {
                 val greeting = remember { Greeting().greet() }
                 Column(

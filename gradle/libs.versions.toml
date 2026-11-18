@@ -46,6 +46,7 @@ androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 konsist = { group = "com.lemonappdev", name = "konsist", version.ref = "konsist" }
 firebase-auth = { group = "dev.gitlive", name = "firebase-auth", version.ref = "gitlive" }
 firebase-firestore = { group = "dev.gitlive", name = "firebase-firestore", version.ref = "gitlive" }
+firebase-config = { group = "dev.gitlive", name = "firebase-config", version.ref = "gitlive" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

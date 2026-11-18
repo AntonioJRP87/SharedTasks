@@ -60,6 +60,7 @@ kotlin {
                 implementation(project(":domain"))
                 implementation(libs.firebase.auth)
                 implementation(libs.firebase.firestore)
+                implementation(libs.firebase.config)
             }
         }
 

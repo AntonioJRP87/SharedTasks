@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.antonio.sharedtasks.data.readWelcomeMessage
 import com.antonio.sharedtasks.data.saveAndReadSmoke
 import com.antonio.sharedtasks.data.signInAnonymously
 import kotlinx.coroutines.launch
@@ -29,6 +30,7 @@ fun App() {
         var showContent by remember { mutableStateOf(false) }
         var showText by remember { mutableStateOf("Sin sesión") }
         var dates by remember { mutableStateOf("Sin datos") }
+        var remoteMessage by remember { mutableStateOf( "Sin Datos de Firebase") }
 
         val scope = rememberCoroutineScope()
 
@@ -59,6 +61,17 @@ fun App() {
                 Text("Probar Firestore")
             }
             Text(dates)
+            Button(onClick = { scope.launch {
+                try {
+                    remoteMessage = readWelcomeMessage()
+                } catch (e: Exception) {
+                    remoteMessage = e.message ?: "Error desconocido"
+                }
+            } }) {
+                Text("Probar Remote Config")
+            }
+            Text(remoteMessage)
+
             AnimatedVisibility(showContent) {
                 val greeting = remember { Greeting().greet() }
                 Column(

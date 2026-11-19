@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.antonio.sharedtasks.data.readWelcomeMessage
+import com.antonio.sharedtasks.data.reportTestError
 import com.antonio.sharedtasks.data.saveAndReadSmoke
 import com.antonio.sharedtasks.data.signInAnonymously
 import kotlinx.coroutines.launch
@@ -71,6 +72,12 @@ fun App() {
                 Text("Probar Remote Config")
             }
             Text(remoteMessage)
+            Button(onClick =  {
+                    reportTestError()
+               
+             }) {
+                Text("Probar Crashlytics")
+            }
 
             AnimatedVisibility(showContent) {
                 val greeting = remember { Greeting().greet() }

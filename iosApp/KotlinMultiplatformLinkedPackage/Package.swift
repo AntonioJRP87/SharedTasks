@@ -16,6 +16,7 @@ let package = Package(
     .package(path: "subpackages/dev_gitlive_firebase_auth_3_0_0_beta1"),
     .package(path: "subpackages/dev_gitlive_firebase_firestore_3_0_0_beta1"),
     .package(path: "subpackages/dev_gitlive_firebase_config_3_0_0_beta1"),
+    .package(path: "subpackages/dev_gitlive_firebase_crashlytics_3_0_0_beta1"),
     .package(path: "subpackages/dev_gitlive_firebase_app_3_0_0_beta1")
   ],
   targets: [
@@ -25,6 +26,7 @@ let package = Package(
         .product(name: "dev_gitlive_firebase_auth_3_0_0_beta1", package: "dev_gitlive_firebase_auth_3_0_0_beta1"),
         .product(name: "dev_gitlive_firebase_firestore_3_0_0_beta1", package: "dev_gitlive_firebase_firestore_3_0_0_beta1"),
         .product(name: "dev_gitlive_firebase_config_3_0_0_beta1", package: "dev_gitlive_firebase_config_3_0_0_beta1"),
+        .product(name: "dev_gitlive_firebase_crashlytics_3_0_0_beta1", package: "dev_gitlive_firebase_crashlytics_3_0_0_beta1"),
         .product(name: "dev_gitlive_firebase_app_3_0_0_beta1", package: "dev_gitlive_firebase_app_3_0_0_beta1")
       ]
     )

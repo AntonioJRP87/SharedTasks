@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.antonio.sharedtasks.data.readMessagingToken
 import com.antonio.sharedtasks.data.readWelcomeMessage
 import com.antonio.sharedtasks.data.reportTestError
 import com.antonio.sharedtasks.data.saveAndReadSmoke
@@ -32,6 +33,7 @@ fun App() {
         var showText by remember { mutableStateOf("Sin sesión") }
         var dates by remember { mutableStateOf("Sin datos") }
         var remoteMessage by remember { mutableStateOf( "Sin Datos de Firebase") }
+        var messagingToken by remember { mutableStateOf( "Sin Token de Firebase") }
 
         val scope = rememberCoroutineScope()
 
@@ -78,6 +80,22 @@ fun App() {
              }) {
                 Text("Probar Crashlytics")
             }
+            Button(onClick =  {
+                throw RuntimeException("Error for testing Crashlytics")
+
+            }) {
+                Text("Provocar cierre")
+            }
+            Button(onClick = { scope.launch {
+                try {
+                    messagingToken = readMessagingToken()
+                } catch (e: Exception) {
+                    messagingToken = e.message ?: "Error desconocido"
+                }
+            } }) {
+                Text("Probar Notificaciones Push")
+            }
+            Text(messagingToken)
 
             AnimatedVisibility(showContent) {
                 val greeting = remember { Greeting().greet() }

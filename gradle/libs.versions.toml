@@ -49,6 +49,7 @@ firebase-auth = { group = "dev.gitlive", name = "firebase-auth", version.ref = "
 firebase-firestore = { group = "dev.gitlive", name = "firebase-firestore", version.ref = "gitlive" }
 firebase-config = { group = "dev.gitlive", name = "firebase-config", version.ref = "gitlive" }
 firebase-crashlytics = { group = "dev.gitlive", name = "firebase-crashlytics", version.ref = "gitlive" }
+firebase-messaging = { group = "dev.gitlive", name = "firebase-messaging", version.ref = "gitlive" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -24,6 +24,17 @@ dependencies {
 android {
     namespace = "com.antonio.sharedtasks"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+    flavorDimensions.add("env")
+
+    productFlavors {
+        create("dev") {
+            dimension = "env"
+            applicationIdSuffix = ".dev"
+        }
+        create("prod") {
+            dimension = "env"
+        }
+    }
 
     defaultConfig {
         applicationId = "com.antonio.sharedtasks"

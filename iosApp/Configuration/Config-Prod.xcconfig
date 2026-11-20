@@ -1,0 +1,3 @@
+#include "Config.xcconfig"
+PRODUCT_BUNDLE_IDENTIFIER=com.antonio.sharedtasks.SharedTasks
+FIREBASE_ENV=Prod

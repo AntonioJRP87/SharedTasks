@@ -1,31 +1,77 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# SharedTasks
 
-* [/iosApp](./iosApp/iosApp) contains an iOS application. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+App móvil para iOS y Android con la que una pareja reparte las tareas del hogar que tienen fecha límite, como la ITV, el seguro o la revisión de la caldera, y elige quién se encarga de cada una. La app avisa a tiempo (30 días antes, 7 días antes y el día límite) y, si se pasa la fecha, también avisa a la pareja para que lo resuelvan entre los dos.
 
-* [/shared](./shared/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./shared/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./shared/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./shared/src/jvmMain/kotlin)
-    folder is the appropriate location.
+Está hecha con Kotlin Multiplatform y Compose Multiplatform, con Firebase como backend (Auth, Firestore, Remote Config, Crashlytics y Messaging).
 
-### Running the apps
+## Requisitos
 
-Use the run configurations provided by the run widget in your IDE's toolbar. You can also use these commands and options:
+- Android Studio
+- JDK
+- Xcode (solo en Mac, necesario para compilar la app de iOS)
 
-- Android app: `./gradlew :androidApp:assembleDebug`
-- iOS app: open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+## Archivos de Firebase (no están en el repo)
 
-### Running tests
+Los archivos de configuración de Firebase contienen claves de los proyectos, así que están en el `.gitignore` y **no se suben al repositorio**. Al clonar el proyecto en una máquina nueva hay que conseguirlos y colocarlos a mano. Sin ellos la app no compila o se cierra al arrancar.
 
-Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
+Hay dos entornos, cada uno con su propio proyecto de Firebase:
 
-- Android tests: `./gradlew :shared:testAndroidHostTest`
-- iOS tests: `./gradlew :shared:iosSimulatorArm64Test`
+| Entorno | Proyecto de Firebase | Android | iOS |
+| --- | --- | --- | --- |
+| Desarrollo | `shared-tasks-dev` | `androidApp/src/dev/google-services.json` | `iosApp/Firebase/Dev/GoogleService-Info.plist` |
+| Producción | `shared-tasks-prod` | `androidApp/src/prod/google-services.json` | `iosApp/Firebase/Prod/GoogleService-Info.plist` |
 
----
+### Cómo conseguirlos
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+1. Entra en la [consola de Firebase](https://console.firebase.google.com) y abre el proyecto del entorno.
+2. Pulsa la rueda dentada junto a «Descripción general del proyecto» y entra en **Configuración del proyecto**.
+3. En la pestaña **General**, baja hasta «Tus apps».
+4. En la app de Android, pulsa **Descargar google-services.json**.
+5. En la app de iOS, pulsa **Descargar GoogleService-Info.plist**.
+6. Copia cada archivo a su ruta de la tabla, respetando el nombre exacto.
+
+Repite el proceso con el otro proyecto.
+
+### Qué app corresponde a cada entorno
+
+| | Desarrollo | Producción |
+| --- | --- | --- |
+| Android | `com.antonio.sharedtasks.dev` | `com.antonio.sharedtasks` |
+| iOS | `com.antonio.sharedtasks.SharedTasks.dev` | `com.antonio.sharedtasks.SharedTasks` |
+
+Gracias a esto, las dos versiones pueden estar instaladas a la vez en el mismo móvil.
+
+## Cómo ejecutar
+
+### Android
+
+Elige la variante de compilación (`devDebug` o `prodDebug`) en Android Studio, o usa Gradle:
+
+```
+./gradlew :androidApp:assembleDevDebug
+./gradlew :androidApp:assembleProdDebug
+```
+
+### iOS
+
+Abre la carpeta `iosApp` en Xcode y selecciona el esquema `iosApp-Dev` o `iosApp-Prod`.
+
+No elijas un equipo de desarrollo (team) desde Android Studio: cambiaría el Bundle ID y la app dejaría de coincidir con la registrada en Firebase.
+
+### Comprobar que funciona
+
+Si arranca sin cerrarse y los servicios de Firebase responden en el entorno elegido, la configuración es correcta. Si se cierra al arrancar, lo más probable es que falte alguno de los archivos de la sección anterior.
+
+## Estructura del proyecto
+
+- `domain`: reglas del negocio, sin dependencias de plataforma.
+- `data`: acceso a datos (Firebase) y repositorios.
+- `presentation`: pantallas y lógica de presentación.
+- `shared`: punto de entrada común a Android e iOS con Compose Multiplatform.
+- `androidApp`: aplicación Android, con los flavors `dev` y `prod`.
+- `iosApp`: aplicación iOS, con las configuraciones y esquemas `Dev` y `Prod`.
+- `architecture-test`: pruebas que comprueban que se respeta la arquitectura.
+
+## Limitaciones conocidas
+
+- Las notificaciones push en iOS necesitan una cuenta de Apple Developer de pago (APNs), así que de momento solo funcionan en Android.

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.androidLint)
+    alias(libs.plugins.serialization)
 }
 
 kotlin {
@@ -57,7 +58,11 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 implementation(project(":domain"))
-                // Add KMP dependencies here
+                implementation(libs.firebase.auth)
+                implementation(libs.firebase.firestore)
+                implementation(libs.firebase.config)
+                implementation(libs.firebase.crashlytics)
+                implementation(libs.firebase.messaging)
             }
         }
 

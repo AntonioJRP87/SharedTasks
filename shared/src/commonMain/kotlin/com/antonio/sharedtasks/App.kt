@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.antonio.sharedtasks.data.KoinSmokeTest
 import com.antonio.sharedtasks.data.readMessagingToken
 import com.antonio.sharedtasks.data.readWelcomeMessage
 import com.antonio.sharedtasks.data.reportTestError
@@ -21,6 +22,7 @@ import com.antonio.sharedtasks.data.saveAndReadSmoke
 import com.antonio.sharedtasks.data.signInAnonymously
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
+import org.koin.mp.KoinPlatform
 
 import sharedtasks.shared.generated.resources.Res
 import sharedtasks.shared.generated.resources.compose_multiplatform
@@ -34,6 +36,7 @@ fun App() {
         var dates by remember { mutableStateOf("Sin datos") }
         var remoteMessage by remember { mutableStateOf( "Sin Datos de Firebase") }
         var messagingToken by remember { mutableStateOf( "Sin Token de Firebase") }
+        var requestMessageDi by remember { mutableStateOf( "Sin datos") }
 
         val scope = rememberCoroutineScope()
 
@@ -96,6 +99,16 @@ fun App() {
                 Text("Probar Notificaciones Push")
             }
             Text(messagingToken)
+            Button(onClick = { scope.launch {
+                try {
+                    requestMessageDi = KoinPlatform.getKoin().get<KoinSmokeTest>().hello()
+                } catch (e: Exception) {
+                    requestMessageDi = e.message ?: "Error desconocido"
+                }
+            } }) {
+                Text("Probar Di")
+            }
+            Text(requestMessageDi)
 
             AnimatedVisibility(showContent) {
                 val greeting = remember { Greeting().greet() }

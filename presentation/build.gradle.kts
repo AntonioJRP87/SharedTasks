@@ -57,7 +57,7 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 implementation(project(":domain"))
-                // Add KMP dependencies here
+                implementation(libs.koin.core)
             }
         }
 

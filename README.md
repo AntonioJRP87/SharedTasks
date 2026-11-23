@@ -2,7 +2,7 @@
 
 App móvil para iOS y Android con la que una pareja reparte las tareas del hogar que tienen fecha límite, como la ITV, el seguro o la revisión de la caldera, y elige quién se encarga de cada una. La app avisa a tiempo (30 días antes, 7 días antes y el día límite) y, si se pasa la fecha, también avisa a la pareja para que lo resuelvan entre los dos.
 
-Está hecha con Kotlin Multiplatform y Compose Multiplatform, con Firebase como backend (Auth, Firestore, Remote Config, Crashlytics y Messaging).
+Está hecha con Kotlin Multiplatform y Compose Multiplatform, con Firebase como backend (Auth, Firestore, Remote Config, Crashlytics y Messaging) y Koin para la inyección de dependencias.
 
 ## Requisitos
 
@@ -54,22 +54,34 @@ Elige la variante de compilación (`devDebug` o `prodDebug`) en Android Studio, 
 
 ### iOS
 
-Abre la carpeta `iosApp` en Xcode y selecciona el esquema `iosApp-Dev` o `iosApp-Prod`.
+Abre la carpeta `iosApp` en Xcode y selecciona el esquema `iosApp-Dev` o `iosApp-Prod`. La app de iOS se ejecuta desde Xcode.
 
 No elijas un equipo de desarrollo (team) desde Android Studio: cambiaría el Bundle ID y la app dejaría de coincidir con la registrada en Firebase.
 
 ### Comprobar que funciona
 
-Si arranca sin cerrarse y los servicios de Firebase responden en el entorno elegido, la configuración es correcta. Si se cierra al arrancar, lo más probable es que falte alguno de los archivos de la sección anterior.
+La app debe abrirse sin cerrarse, tanto en Android como en iOS. De momento la pantalla se ve vacía, solo con el color de fondo, porque todavía no hay funcionalidad en ella.
+
+Si se cierra al arrancar, lo más probable es que falte alguno de los archivos de la sección anterior, o que esté en una ruta equivocada. El error concreto se ve en Logcat (Android) o en la consola de Xcode (iOS).
+
+## Pruebas de arquitectura
+
+El módulo `architecture-test` comprueba que se respetan las capas del proyecto. Para ejecutarlas:
+
+```
+./gradlew :architecture-test:test --rerun
+```
+
+El `--rerun` obliga a Gradle a ejecutar los tests de nuevo en vez de reutilizar un resultado guardado.
 
 ## Estructura del proyecto
 
-- `domain`: reglas del negocio, sin dependencias de plataforma.
-- `data`: acceso a datos (Firebase) y repositorios.
-- `presentation`: pantallas y lógica de presentación.
-- `shared`: punto de entrada común a Android e iOS con Compose Multiplatform.
-- `androidApp`: aplicación Android, con los flavors `dev` y `prod`.
-- `iosApp`: aplicación iOS, con las configuraciones y esquemas `Dev` y `Prod`.
+- `domain`: reglas del negocio, sin dependencias de plataforma ni de Koin.
+- `data`: acceso a datos (Firebase) y repositorios. Registra sus dependencias en `dataModule`.
+- `presentation`: pantallas y lógica de presentación. Registra sus dependencias en `presentationModule`.
+- `shared`: punto de entrada común a Android e iOS con Compose Multiplatform. Contiene `initKoin`, que junta los módulos y arranca Koin.
+- `androidApp`: aplicación Android, con los flavors `dev` y `prod`. Arranca Koin desde la clase `Application`.
+- `iosApp`: aplicación iOS, con las configuraciones y esquemas `Dev` y `Prod`. Arranca Koin desde `iOSApp.swift`.
 - `architecture-test`: pruebas que comprueban que se respeta la arquitectura.
 
 ## Limitaciones conocidas
